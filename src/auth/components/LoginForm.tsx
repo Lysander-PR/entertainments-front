@@ -1,21 +1,35 @@
 import { isAxiosError } from "axios";
 import { useState } from "react";
+import { ValidationError } from "yup";
 
 import { Alert } from "@/shared/components/Alert";
 import { FormField } from "@/shared/components/FormField";
+import { formatYupErrors } from "@/shared/utils/format-yup-errors.util";
 
 import { loginAction } from "../actions/login.action";
+import { loginSchema } from "../schemas/login.schema";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
-    setIsSubmitting(true);
     setError(null);
+    setFieldErrors({});
+    try {
+      await loginSchema.validate({ email, password }, { abortEarly: false });
+    } catch (validationError) {
+      if (validationError instanceof ValidationError) {
+        setFieldErrors(formatYupErrors(validationError));
+      }
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       await loginAction(email, password);
@@ -33,12 +47,19 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && <Alert type="error" message={error} />}
-      <FormField label="Email" type="email" value={email} onChange={setEmail} />
+      <FormField
+        label="Email"
+        type="email"
+        value={email}
+        onChange={setEmail}
+        error={fieldErrors.email}
+      />
       <FormField
         label="Contraseña"
         type="password"
         value={password}
         onChange={setPassword}
+        error={fieldErrors.password}
       />
       <button
         type="submit"
