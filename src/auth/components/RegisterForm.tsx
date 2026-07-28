@@ -1,5 +1,7 @@
+import { isAxiosError } from "axios";
 import { useState } from "react";
 
+import { Alert } from "@/shared/components/Alert";
 import { FormField } from "@/shared/components/FormField";
 
 import { register } from "../actions/register.action";
@@ -9,13 +11,21 @@ export const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
     try {
       await register(email, password, username);
+    } catch (submitError) {
+      const message = isAxiosError(submitError)
+        ? submitError.response?.data?.message
+        : null;
+
+      setError(message ?? "No pudimos crear la cuenta. Intenta nuevamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -23,6 +33,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      {error && <Alert type="error" message={error} />}
       <FormField
         label="Nombre de usuario"
         value={username}
