@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: #0d0a12;
+  --color-surface: #0d0a12;
+  --color-surface-elevated: #1a1520;
+  --color-accent-from: #f97316;
+  --color-accent-to: #ec4899;
+  --color-text-muted: #9ca3af;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--color-accent-from), var(--color-accent-to));
+}
