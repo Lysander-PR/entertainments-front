@@ -45,7 +45,7 @@ export const RegisterForm = () => {
         ? submitError.response?.data?.message
         : null;
 
-      setError(message ?? "No pudimos crear la cuenta. Intenta nuevamente.");
+      setError(message ?? "We couldn't create your account. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -56,7 +56,7 @@ export const RegisterForm = () => {
       {error && <Alert type="error" message={error} />}
       <FormField
         name="username"
-        label="Nombre de usuario"
+        label="Username"
         error={fieldErrors.username}
       />
       <FormField
@@ -66,7 +66,7 @@ export const RegisterForm = () => {
         error={fieldErrors.email}
       />
       <FormField
-        label="Contraseña"
+        label="Password"
         name="password"
         type="password"
         error={fieldErrors.password}
@@ -76,7 +76,7 @@ export const RegisterForm = () => {
         disabled={isSubmitting}
         className="gradient-accent rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-60"
       >
-        Crear cuenta
+        Create account
       </button>
     </form>
   );

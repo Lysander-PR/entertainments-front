@@ -42,7 +42,7 @@ export const LoginForm = () => {
         ? submitError.response?.data?.message
         : null;
 
-      setError(message ?? "No pudimos iniciar sesión. Intenta nuevamente.");
+      setError(message ?? "We couldn't sign you in. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -59,7 +59,7 @@ export const LoginForm = () => {
       />
       <FormField
         name="password"
-        label="Contraseña"
+        label="Password"
         type="password"
         error={fieldErrors.password}
       />
@@ -68,7 +68,7 @@ export const LoginForm = () => {
         disabled={isSubmitting}
         className="gradient-accent rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-60"
       >
-        Iniciar sesión
+        Sign in
       </button>
     </form>
   );

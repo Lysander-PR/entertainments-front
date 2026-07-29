@@ -4,12 +4,12 @@ export const loginSchema = yup.object({
   email: yup
     .string()
     .trim()
-    .email("Ingresa un email válido")
-    .required("El email es obligatorio"),
+    .email("Enter a valid email")
+    .required("Email is required"),
   password: yup
     .string()
-    .min(6, "La contraseña debe tener al menos 6 caracteres")
-    .required("La contraseña es obligatoria"),
+    .min(6, "Password must be at least 6 characters long")
+    .required("Password is required"),
 });
 
 export type LoginFormValues = yup.InferType<typeof loginSchema>;

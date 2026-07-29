@@ -12,22 +12,22 @@ export const Header = () => {
           onClick={logout}
           className="rounded-full border border-red-500/40 px-5 py-2 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/10"
         >
-          Cerrar sesión
+          Sign out
         </button>
       ) : (
         <button
           type="button"
-          // TODO: navegar a /auth (AuthPage) cuando se configure el router
+          // TODO: navigate to /auth (AuthPage) once the router is configured
           className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
         >
-          Iniciar sesión
+          Sign in
         </button>
       )}
       <button
         type="button"
         className="gradient-accent rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition-transform hover:scale-105"
       >
-        Agregar
+        Add
       </button>
     </header>
   );

@@ -39,13 +39,13 @@ export const AuthTabs = ({ activeMode, onChange }: AuthTabsProps) => {
   return (
     <div className="flex rounded-full bg-black/20 p-1">
       <AuthTabButton
-        label="Iniciar sesión"
+        label="Sign in"
         mode="login"
         activeMode={activeMode}
         onChange={onChange}
       />
       <AuthTabButton
-        label="Registrarse"
+        label="Sign up"
         mode="register"
         activeMode={activeMode}
         onChange={onChange}
