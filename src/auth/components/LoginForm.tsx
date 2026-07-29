@@ -1,5 +1,6 @@
 import { isAxiosError } from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { ValidationError } from "yup";
 
 import { Alert } from "@/shared/components/Alert";
@@ -10,6 +11,7 @@ import { loginAction } from "../actions/login.action";
 import { loginSchema } from "../schemas/login.schema";
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -22,7 +24,6 @@ export const LoginForm = () => {
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    console.log({ email, password });
 
     try {
       await loginSchema.validate({ email, password }, { abortEarly: false });
@@ -37,6 +38,7 @@ export const LoginForm = () => {
 
     try {
       await loginAction(email, password);
+      navigate("/");
     } catch (submitError) {
       const message = isAxiosError(submitError)
         ? submitError.response?.data?.message

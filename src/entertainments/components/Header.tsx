@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router";
+
 import { useAuthStore } from "@/auth/store/auth.store";
 
 export const Header = () => {
+  const navigate = useNavigate();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore((state) => state.logout);
 
@@ -17,7 +20,7 @@ export const Header = () => {
       ) : (
         <button
           type="button"
-          // TODO: navigate to /auth (AuthPage) once the router is configured
+          onClick={() => navigate("/signature")}
           className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
         >
           Sign in
