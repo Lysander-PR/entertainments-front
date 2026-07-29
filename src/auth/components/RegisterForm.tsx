@@ -14,9 +14,12 @@ export const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     setError(null);
     setFieldErrors({});
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const username = formData.get("username") as string;
@@ -49,7 +52,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form action={handleSubmit} className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && <Alert type="error" message={error} />}
       <FormField
         name="username"
