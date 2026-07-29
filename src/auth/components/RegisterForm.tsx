@@ -10,17 +10,16 @@ import { register } from "../actions/register.action";
 import { registerSchema } from "../schemas/register.schema";
 
 export const RegisterForm = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (event: React.SubmitEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (formData: FormData) => {
     setError(null);
     setFieldErrors({});
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const username = formData.get("username") as string;
 
     try {
       await registerSchema.validate(
@@ -50,26 +49,23 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form action={handleSubmit} className="flex flex-col gap-5">
       {error && <Alert type="error" message={error} />}
       <FormField
+        name="username"
         label="Nombre de usuario"
-        value={username}
-        onChange={setUsername}
         error={fieldErrors.username}
       />
       <FormField
         label="Email"
+        name="email"
         type="email"
-        value={email}
-        onChange={setEmail}
         error={fieldErrors.email}
       />
       <FormField
         label="Contraseña"
+        name="password"
         type="password"
-        value={password}
-        onChange={setPassword}
         error={fieldErrors.password}
       />
       <button

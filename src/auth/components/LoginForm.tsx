@@ -10,16 +10,16 @@ import { loginAction } from "../actions/login.action";
 import { loginSchema } from "../schemas/login.schema";
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (event: React.SubmitEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (formData: FormData) => {
     setError(null);
     setFieldErrors({});
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
     try {
       await loginSchema.validate({ email, password }, { abortEarly: false });
     } catch (validationError) {
@@ -45,20 +45,18 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form action={handleSubmit} className="flex flex-col gap-5">
       {error && <Alert type="error" message={error} />}
       <FormField
+        name="Email"
         label="Email"
         type="email"
-        value={email}
-        onChange={setEmail}
         error={fieldErrors.email}
       />
       <FormField
+        name="password"
         label="Contraseña"
         type="password"
-        value={password}
-        onChange={setPassword}
         error={fieldErrors.password}
       />
       <button
