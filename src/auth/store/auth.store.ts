@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import type { User } from "@/shared/types/interfaces/user.interface";
+import { TOKEN_STORAGE } from "@/shared/types/consts/token-storage.const";
 
 interface AuthState {
   user: User | null;
@@ -15,11 +16,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
   token: null,
   isAuthenticated: false,
   login: (user, token) => {
-    localStorage.setItem("token-entertainment", token);
+    localStorage.setItem(TOKEN_STORAGE, token);
     set({ user, token, isAuthenticated: true });
   },
   logout: () => {
-    localStorage.removeItem("token-entertainment");
+    localStorage.removeItem(TOKEN_STORAGE);
     set({ user: null, token: null, isAuthenticated: false });
   },
 }));
