@@ -19,6 +19,7 @@ export const bookToCardItem = (book: Book): EntertainmentCardItem => {
     subtitle: book.author,
     production: book.publisher,
     createdAt: book.createdAt,
+    imageId: book.coverId,
     releaseDate: formatDate(book.releaseDate),
     detailRows: [...coWriter],
   };

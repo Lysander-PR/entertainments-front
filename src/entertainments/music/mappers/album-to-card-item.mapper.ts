@@ -10,6 +10,7 @@ export const albumToCardItem = (album: Album): EntertainmentCardItem => {
     subtitle: album.artist,
     createdAt: album.createdAt,
     production: album.studio,
+    imageId: album.coverId,
     releaseDate: formatDate(album.releaseDate),
   };
 };

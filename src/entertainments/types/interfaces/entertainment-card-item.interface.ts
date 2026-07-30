@@ -10,7 +10,7 @@ export interface EntertainmentCardItem {
   title: string;
   subtitle: string;
   releaseDate: string;
-  imageUrl?: string;
+  imageId?: string;
   production: string;
   createdAt: string;
   detailRows?: EntertainmentDetailRow[];
