@@ -10,7 +10,7 @@ export const bookToCardItem = (book: Book): EntertainmentCardItem => {
   const coWriter: EntertainmentDetailRow[] = [];
 
   if (book.coWriter) {
-    coWriter.push({ label: "Coautor", value: book.coWriter });
+    coWriter.push({ label: "Co-author", value: book.coWriter });
   }
 
   return {

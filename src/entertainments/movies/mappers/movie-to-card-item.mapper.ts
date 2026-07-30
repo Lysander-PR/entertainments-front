@@ -22,8 +22,8 @@ export const movieToCardItem = (movie: Movie): EntertainmentCardItem => {
     imageId: movie.posterId,
     category: "movie",
     detailRows: [
-      { label: "Guionista", value: movie.writer },
-      { label: "Protagonista", value: movie.protagonist },
+      { label: "Writer", value: movie.writer },
+      { label: "Lead actor", value: movie.protagonist },
       ...soundtrack,
     ],
   };
