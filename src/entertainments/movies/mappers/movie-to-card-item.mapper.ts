@@ -20,6 +20,7 @@ export const movieToCardItem = (movie: Movie): EntertainmentCardItem => {
     createdAt: movie.createdAt,
     releaseDate: formatDate(movie.releaseDate),
     imageId: movie.posterId,
+    category: "movie",
     detailRows: [
       { label: "Guionista", value: movie.writer },
       { label: "Protagonista", value: movie.protagonist },

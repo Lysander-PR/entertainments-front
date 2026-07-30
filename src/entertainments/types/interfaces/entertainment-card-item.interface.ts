@@ -13,5 +13,6 @@ export interface EntertainmentCardItem {
   imageId?: string;
   production: string;
   createdAt: string;
+  category: EntertainmentCategory;
   detailRows?: EntertainmentDetailRow[];
 }

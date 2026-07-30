@@ -20,6 +20,7 @@ export const bookToCardItem = (book: Book): EntertainmentCardItem => {
     production: book.publisher,
     createdAt: book.createdAt,
     imageId: book.coverId,
+    category: "book",
     releaseDate: formatDate(book.releaseDate),
     detailRows: [...coWriter],
   };

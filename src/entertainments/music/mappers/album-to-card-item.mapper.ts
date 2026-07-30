@@ -12,5 +12,6 @@ export const albumToCardItem = (album: Album): EntertainmentCardItem => {
     production: album.studio,
     imageId: album.coverId,
     releaseDate: formatDate(album.releaseDate),
+    category: "album",
   };
 };
