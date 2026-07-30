@@ -2,14 +2,14 @@ import type { PropsWithChildren } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { refreshAction } from "@/auth/actions/refresh.action";
-import { FullScreenLoading } from "./FullScreenLoading";
+import { FullScreenLoading } from "@/shared/components/FullScreenLoading";
 
 export const CheckAuthProvider = ({ children }: PropsWithChildren) => {
   const { isLoading } = useQuery({
     queryKey: ["auth"],
     queryFn: refreshAction,
     retry: false,
-    refetchInterval: 1000 * 60,
+    refetchInterval: 1000 * 50,
     refetchOnWindowFocus: true,
   });
 
