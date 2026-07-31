@@ -1,10 +1,16 @@
 import { entertainmentApi } from "@/api/entertainment.api";
+import type { PaginationParams } from "@/shared/types/interfaces/pagination.interface";
 
 import type { Book } from "../types/interfaces/book.interface";
 
-export const getBooksAction = async (): Promise<Book[]> => {
+export const getBooksAction = async ({
+  page,
+  limit,
+}: PaginationParams): Promise<Book[]> => {
   try {
-    const { data } = await entertainmentApi.get<Book[]>("books");
+    const { data } = await entertainmentApi.get<Book[]>("books", {
+      params: { page, limit },
+    });
 
     return data;
   } catch (error) {
