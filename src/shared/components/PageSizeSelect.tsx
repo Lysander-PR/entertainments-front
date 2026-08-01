@@ -1,16 +1,22 @@
+import { useSearchParams } from "react-router";
+
 import { Dropdown } from "./Dropdown";
+import { DEFAULT_PAGE } from "@/entertainments/utils/entertainment-defaults.util";
 
 interface PageSizeSelectProps {
   value: number;
   options: number[];
-  onChange: (value: number) => void;
 }
 
-export const PageSizeSelect = ({
-  value,
-  options,
-  onChange,
-}: PageSizeSelectProps) => {
+export const PageSizeSelect = ({ value, options }: PageSizeSelectProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const onChange = (newPageSize: number) => {
+    searchParams.set("pageSize", newPageSize.toString());
+    searchParams.set("page", DEFAULT_PAGE.toString());
+    setSearchParams(searchParams);
+  };
+
   return (
     <Dropdown
       panelClassName="absolute right-0 top-full z-10 mt-2 w-24 overflow-hidden rounded-lg border border-white/10 bg-surface-elevated shadow-xl"

@@ -11,7 +11,6 @@ import { usePagination } from "../hooks/usePagination";
 import { CATEGORY_LABELS } from "../utils/category-label.util";
 import {
   DEFAULT_CATEGORY,
-  DEFAULT_PAGE,
   getCategoryFromParams,
   getPageFromParams,
   getPageSizeFromParams,
@@ -24,11 +23,8 @@ const CATEGORY_TABS = Object.entries(CATEGORY_LABELS).map(([value, label]) => ({
 }));
 
 export const HomePage = () => {
+  const [searchParams] = useSearchParams({ category: DEFAULT_CATEGORY });
   const categoryKey = "category";
-
-  const [searchParams, setSearchParams] = useSearchParams({
-    category: DEFAULT_CATEGORY,
-  });
 
   const pageParam = getPageFromParams(searchParams);
   const category = getCategoryFromParams(searchParams, categoryKey);
@@ -39,12 +35,6 @@ export const HomePage = () => {
     limit: pageSize,
     category,
   });
-
-  const handlePageSizeChange = (newPageSize: number) => {
-    searchParams.set("pageSize", newPageSize.toString());
-    searchParams.set("page", DEFAULT_PAGE.toString());
-    setSearchParams(searchParams);
-  };
 
   return (
     <div className="min-h-screen bg-background px-6 py-10">
@@ -71,11 +61,7 @@ export const HomePage = () => {
 
               <div className="flex items-center gap-3">
                 <span className="text-sm text-text-muted">Per page</span>
-                <PageSizeSelect
-                  value={pageSize}
-                  options={PAGE_SIZE_OPTIONS}
-                  onChange={handlePageSizeChange}
-                />
+                <PageSizeSelect value={pageSize} options={PAGE_SIZE_OPTIONS} />
               </div>
             </div>
 
