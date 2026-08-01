@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { EntertainmentCardItem } from "@/entertainments/types/interfaces/entertainment-card-item.interface";
 import { EntertainmentImage } from "@/entertainments/images/components/EntertainmentImage";
 
-import { CATEGORY_LABELS } from "../utils/category-label.util";
+import { CATEGORY_LABELS } from "../types/consts/category-label.const";
 
 interface CardDetailModalProps {
   item: EntertainmentCardItem;

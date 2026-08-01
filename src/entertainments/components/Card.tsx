@@ -5,7 +5,7 @@ import type { EntertainmentCardItem } from "@/entertainments/types/interfaces/en
 import { EntertainmentImage } from "@/entertainments/images/components/EntertainmentImage";
 
 import { CardDetailModal } from "./CardDetailModal";
-import { CATEGORY_LABELS } from "../utils/category-label.util";
+import { CATEGORY_LABELS } from "../types/consts/category-label.const";
 
 interface CardProps {
   item: EntertainmentCardItem;

@@ -1,4 +1,4 @@
-import type { EntertainmentCategory } from "../types/interfaces/entertainment-card-item.interface";
+import type { EntertainmentCategory } from "../interfaces/entertainment-card-item.interface";
 
 export const CATEGORY_LABELS: Record<EntertainmentCategory, string> = {
   book: "Book",

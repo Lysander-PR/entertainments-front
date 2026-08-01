@@ -6,9 +6,8 @@ import { FullScreenLoading } from "@/shared/components/FullScreenLoading";
 import { Tabs } from "@/shared/components/Tabs";
 
 import { Card } from "../components/Card";
-import type { EntertainmentCategory } from "../types/interfaces/entertainment-card-item.interface";
 import { usePagination } from "../hooks/usePagination";
-import { CATEGORY_LABELS } from "../utils/category-label.util";
+import { CATEGORIES_TABS } from "../types/consts/categories-tabs.const";
 import {
   DEFAULT_CATEGORY,
   getCategoryFromParams,
@@ -16,11 +15,6 @@ import {
   getPageSizeFromParams,
   PAGE_SIZE_OPTIONS,
 } from "../utils/entertainment-defaults.util";
-
-const CATEGORY_TABS = Object.entries(CATEGORY_LABELS).map(([value, label]) => ({
-  value: value as EntertainmentCategory,
-  label,
-}));
 
 export const HomePage = () => {
   const [searchParams] = useSearchParams({ category: DEFAULT_CATEGORY });
@@ -47,7 +41,7 @@ export const HomePage = () => {
           </p>
         )}
 
-        <Tabs tabs={CATEGORY_TABS} paramKey={categoryKey} />
+        <Tabs tabs={CATEGORIES_TABS} paramKey={categoryKey} />
 
         {!query.isLoading && !query.isError && (
           <>
