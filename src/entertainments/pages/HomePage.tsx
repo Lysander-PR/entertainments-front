@@ -41,7 +41,9 @@ export const HomePage = () => {
           </p>
         )}
 
-        <Tabs tabs={CATEGORIES_TABS} paramKey={categoryKey} />
+        <div className="flex justify-center">
+          <Tabs tabs={CATEGORIES_TABS} paramKey={categoryKey} />
+        </div>
 
         {!query.isLoading && !query.isError && (
           <>
