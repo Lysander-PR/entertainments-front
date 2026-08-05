@@ -1,10 +1,14 @@
 import { useState } from "react";
 
+import { useAuthStore } from "@/auth/store/auth.store";
+import { ConfirmDialog } from "@/shared/components/ConfirmDialog";
 import { Modal } from "@/shared/components/Modal";
 import type { EntertainmentCardItem } from "@/entertainments/types/interfaces/entertainment-card-item.interface";
 import { EntertainmentImage } from "@/entertainments/images/components/EntertainmentImage";
 
+import { CardActionsMenu } from "./CardActionsMenu";
 import { CardDetailModal } from "./CardDetailModal";
+import { useDeleteEntertainment } from "../hooks/useDeleteEntertainment";
 import { CATEGORY_LABELS } from "../types/consts/category-label.const";
 
 interface CardProps {
@@ -13,6 +17,28 @@ interface CardProps {
 
 export const Card = ({ item }: CardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { deleteEntertainment, isDeleting, errorMessage, reset } =
+    useDeleteEntertainment();
+
+  const openConfirm = () => {
+    reset();
+    setIsModalOpen(false);
+    setIsConfirmOpen(true);
+  };
+
+  const closeConfirm = () => {
+    if (isDeleting) return;
+    setIsConfirmOpen(false);
+  };
+
+  const handleDelete = () => {
+    deleteEntertainment(
+      { id: item.id, category: item.category },
+      { onSuccess: () => setIsConfirmOpen(false) },
+    );
+  };
 
   return (
     <>
@@ -32,9 +58,13 @@ export const Card = ({ item }: CardProps) => {
             {CATEGORY_LABELS[item.category]}
           </span>
 
-          <span className="absolute right-3 top-3 rounded-md bg-black/60 px-2 py-1 text-xs font-semibold text-white">
-            {item.releaseDate}
-          </span>
+          <div className="absolute right-3 top-3 flex items-center gap-2">
+            <span className="rounded-md bg-black/60 px-2 py-1 text-xs font-semibold text-white">
+              {item.releaseDate}
+            </span>
+
+            {isAuthenticated && <CardActionsMenu onDelete={openConfirm} />}
+          </div>
         </div>
 
         <div className="flex flex-col gap-2 p-4">
@@ -46,8 +76,22 @@ export const Card = ({ item }: CardProps) => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <CardDetailModal item={item} onClose={() => setIsModalOpen(false)} />
+        <CardDetailModal
+          item={item}
+          onClose={() => setIsModalOpen(false)}
+          onDelete={isAuthenticated ? openConfirm : undefined}
+        />
       </Modal>
+
+      <ConfirmDialog
+        isOpen={isConfirmOpen}
+        title={`Delete "${item.title}"?`}
+        message="This action will remove the record from the catalog."
+        isLoading={isDeleting}
+        errorMessage={errorMessage}
+        onConfirm={handleDelete}
+        onClose={closeConfirm}
+      />
     </>
   );
 };

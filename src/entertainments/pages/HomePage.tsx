@@ -1,30 +1,15 @@
-import { useSearchParams } from "react-router";
-
 import { PageSizeSelect } from "@/shared/components/PageSizeSelect";
 import { Pagination } from "@/shared/components/Pagination";
 import { FullScreenLoading } from "@/shared/components/FullScreenLoading";
 import { Tabs } from "@/shared/components/Tabs";
 
 import { Card } from "../components/Card";
-import { usePagination } from "../hooks/usePagination";
+import { useEntertainmentsPage } from "../hooks/useEntertainmentsPage";
 import { CATEGORIES_TABS } from "../types/consts/categories-tabs.const";
-import {
-  DEFAULT_CATEGORY,
-  getCategoryFromParams,
-  getPageFromParams,
-  getPageSizeFromParams,
-  PAGE_SIZE_OPTIONS,
-} from "../utils/entertainment-defaults.util";
+import { PAGE_SIZE_OPTIONS } from "../utils/entertainment-defaults.util";
 
 export const HomePage = () => {
-  const [searchParams] = useSearchParams({
-    category: DEFAULT_CATEGORY,
-  });
   const categoryKey = "category";
-
-  const pageParam = getPageFromParams(searchParams);
-  const category = getCategoryFromParams(searchParams, categoryKey);
-  const pageSize = getPageSizeFromParams(searchParams);
 
   const {
     query,
@@ -36,11 +21,8 @@ export const HomePage = () => {
     hasPreviousPage,
     rangeStart,
     rangeEnd,
-  } = usePagination({
-    page: pageParam,
-    limit: pageSize,
-    category,
-  });
+    pageSize,
+  } = useEntertainmentsPage(categoryKey);
 
   return (
     <div className="min-h-screen bg-background px-6 py-10">
