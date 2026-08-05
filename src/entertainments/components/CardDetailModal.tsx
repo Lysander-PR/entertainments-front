@@ -8,6 +8,7 @@ import { CATEGORY_LABELS } from "../types/consts/category-label.const";
 interface CardDetailModalProps {
   item: EntertainmentCardItem;
   onClose: () => void;
+  onDelete?: () => void;
 }
 
 interface DetailRowProps {
@@ -26,7 +27,11 @@ const DetailRow = ({ label, children }: DetailRowProps) => {
   );
 };
 
-export const CardDetailModal = ({ item, onClose }: CardDetailModalProps) => {
+export const CardDetailModal = ({
+  item,
+  onClose,
+  onDelete,
+}: CardDetailModalProps) => {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-surface-elevated">
       <button
@@ -67,6 +72,16 @@ export const CardDetailModal = ({ item, onClose }: CardDetailModalProps) => {
               </DetailRow>
             ))}
         </div>
+
+        {onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="mt-6 w-full rounded-full border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/20"
+          >
+            🗑️ Delete
+          </button>
+        )}
       </div>
     </div>
   );

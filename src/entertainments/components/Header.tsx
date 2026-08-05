@@ -26,12 +26,12 @@ export const Header = () => {
           Sign in
         </button>
       )}
-      <button
+      {/* <button
         type="button"
         className="gradient-accent rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition-transform hover:scale-105"
       >
         Add
-      </button>
+      </button> */}
     </header>
   );
 };
