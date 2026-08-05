@@ -5,6 +5,15 @@ export interface PaginationParams {
   limit: number;
 }
 
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
 export interface GetPaginationRangeParams {
   currentPage: number;
   totalPages: number;

@@ -17,14 +17,26 @@ import {
 } from "../utils/entertainment-defaults.util";
 
 export const HomePage = () => {
-  const [searchParams] = useSearchParams({ category: DEFAULT_CATEGORY });
+  const [searchParams] = useSearchParams({
+    category: DEFAULT_CATEGORY,
+  });
   const categoryKey = "category";
 
   const pageParam = getPageFromParams(searchParams);
   const category = getCategoryFromParams(searchParams, categoryKey);
   const pageSize = getPageSizeFromParams(searchParams);
 
-  const { query, items, totalPages, rangeStart, rangeEnd } = usePagination({
+  const {
+    query,
+    items,
+    total,
+    currentPage,
+    totalPages,
+    hasNextPage,
+    hasPreviousPage,
+    rangeStart,
+    rangeEnd,
+  } = usePagination({
     page: pageParam,
     limit: pageSize,
     category,
@@ -52,7 +64,8 @@ export const HomePage = () => {
                 Showing{" "}
                 <span className="font-semibold text-white">
                   {rangeStart}-{rangeEnd}
-                </span>
+                </span>{" "}
+                of <span className="font-semibold text-white">{total}</span>
               </p>
 
               <div className="flex items-center gap-3">
@@ -67,7 +80,12 @@ export const HomePage = () => {
               ))}
             </div>
 
-            <Pagination totalPages={totalPages} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasNextPage={hasNextPage}
+              hasPreviousPage={hasPreviousPage}
+            />
           </>
         )}
       </div>

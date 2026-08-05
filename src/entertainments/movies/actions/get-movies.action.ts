@@ -1,16 +1,22 @@
 import { entertainmentApi } from "@/api/entertainment.api";
-import type { PaginationParams } from "@/shared/types/interfaces/pagination.interface";
+import type {
+  PaginatedResponse,
+  PaginationParams,
+} from "@/shared/types/interfaces/pagination.interface";
 
 import type { Movie } from "../types/interfaces/movie.interface";
 
 export const getMoviesAction = async ({
   page,
   limit,
-}: PaginationParams): Promise<Movie[]> => {
+}: PaginationParams): Promise<PaginatedResponse<Movie>> => {
   try {
-    const { data } = await entertainmentApi.get<Movie[]>("movies", {
-      params: { page, limit },
-    });
+    const { data } = await entertainmentApi.get<PaginatedResponse<Movie>>(
+      "movies",
+      {
+        params: { page, limit },
+      },
+    );
 
     return data;
   } catch (error) {

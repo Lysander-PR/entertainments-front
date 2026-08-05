@@ -1,21 +1,28 @@
 import { useSearchParams } from "react-router";
 
-import { getPaginationRange, pageButtonClasses } from "../utils/pagination.util";
+import {
+  getPaginationRange,
+  pageButtonClasses,
+} from "../utils/pagination.util";
 
 interface PaginationProps {
+  currentPage: number;
   totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
   siblingCount?: number;
   boundaryCount?: number;
 }
 
 export const Pagination = ({
+  currentPage,
   totalPages,
+  hasNextPage,
+  hasPreviousPage,
   siblingCount = 1,
   boundaryCount = 1,
 }: PaginationProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const queryPage = searchParams.get("page") || "1";
-  const page = isNaN(Number(queryPage)) ? 1 : Number(queryPage);
 
   const handlePageChange = (newPage: number): void => {
     if (newPage < 1 || newPage > totalPages) {
@@ -27,7 +34,7 @@ export const Pagination = ({
   };
 
   const paginationItems = getPaginationRange({
-    currentPage: page,
+    currentPage,
     totalPages,
     siblingCount,
     boundaryCount,
@@ -37,8 +44,8 @@ export const Pagination = ({
     <div className="flex items-center justify-center gap-2">
       <button
         type="button"
-        onClick={() => handlePageChange(page - 1)}
-        disabled={page === 1}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={!hasPreviousPage}
         className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-text-muted transition-colors hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
       >
         ‹
@@ -50,7 +57,7 @@ export const Pagination = ({
             key={item}
             type="button"
             onClick={() => handlePageChange(item)}
-            className={pageButtonClasses(item === page)}
+            className={pageButtonClasses(item === currentPage)}
           >
             {item}
           </button>
@@ -67,8 +74,8 @@ export const Pagination = ({
 
       <button
         type="button"
-        onClick={() => handlePageChange(page + 1)}
-        disabled={page === totalPages}
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={!hasNextPage}
         className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-text-muted transition-colors hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
       >
         ›

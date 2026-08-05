@@ -1,6 +1,9 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-import type { PaginationParams } from "@/shared/types/interfaces/pagination.interface";
+import type {
+  PaginatedResponse,
+  PaginationParams,
+} from "@/shared/types/interfaces/pagination.interface";
 
 import type {
   EntertainmentCardItem,
@@ -12,6 +15,7 @@ import { getMoviesAction } from "../movies/actions/get-movies.action";
 import { movieToCardItem } from "../movies/mappers/movie-to-card-item.mapper";
 import { getAlbumsAction } from "../music/actions/get-albums.action";
 import { albumToCardItem } from "../music/mappers/album-to-card-item.mapper";
+import { toCardItemsPage } from "../mappers/to-card-items-page.mapper";
 
 interface PaginationProps {
   page: number;
@@ -21,16 +25,19 @@ interface PaginationProps {
 
 const CATEGORY_QUERIES: Record<
   EntertainmentCategory,
-  (params: PaginationParams) => Promise<EntertainmentCardItem[]>
+  (
+    params: PaginationParams,
+  ) => Promise<PaginatedResponse<EntertainmentCardItem>>
 > = {
-  book: async (params) => (await getBooksAction(params)).map(bookToCardItem),
-  movie: async (params) => (await getMoviesAction(params)).map(movieToCardItem),
-  album: async (params) => (await getAlbumsAction(params)).map(albumToCardItem),
+  book: async (params) =>
+    toCardItemsPage(await getBooksAction(params), bookToCardItem),
+  movie: async (params) =>
+    toCardItemsPage(await getMoviesAction(params), movieToCardItem),
+  album: async (params) =>
+    toCardItemsPage(await getAlbumsAction(params), albumToCardItem),
 };
 
 export const usePagination = ({ page, limit, category }: PaginationProps) => {
-  const pageSize = limit > 0 ? limit : 1;
-  const currentPage = page > 0 ? page : 1;
   const queryFn = CATEGORY_QUERIES[category];
 
   const query = useQuery({
@@ -39,17 +46,18 @@ export const usePagination = ({ page, limit, category }: PaginationProps) => {
     placeholderData: keepPreviousData,
   });
 
-  const items = query.data ?? [];
-  const startIndex = (currentPage - 1) * pageSize;
-  const hasNextPage = items.length === pageSize;
+  const items = query.data?.data ?? [];
+  const rangeStart = items.length === 0 ? 0 : (page - 1) * limit + 1;
 
   return {
     query,
     items,
-    currentPage,
-    hasNextPage,
-    totalPages: hasNextPage ? currentPage + 1 : currentPage,
-    rangeStart: items.length === 0 ? 0 : startIndex + 1,
-    rangeEnd: startIndex + items.length,
+    total: query.data?.total ?? 0,
+    currentPage: query.data?.currentPage ?? page,
+    totalPages: query.data?.totalPages ?? 0,
+    hasNextPage: query.data?.hasNextPage ?? false,
+    hasPreviousPage: query.data?.hasPreviousPage ?? false,
+    rangeStart,
+    rangeEnd: rangeStart === 0 ? 0 : rangeStart + items.length - 1,
   };
 };
