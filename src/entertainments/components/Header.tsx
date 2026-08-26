@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router";
 
 import { useAuthStore } from "@/auth/store/auth.store";
+import { buildFormUrl } from "@/shared/utils/form-handoff.util";
 
 export const Header = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore((state) => state.logout);
+
+  const goToForm = () => {
+    const formUrl = buildFormUrl();
+
+    if (formUrl) window.location.assign(formUrl);
+  };
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-end gap-3 border-b border-white/10 bg-surface-elevated px-6 py-4">
@@ -26,12 +33,15 @@ export const Header = () => {
           Sign in
         </button>
       )}
-      {/* <button
-        type="button"
-        className="gradient-accent rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition-transform hover:scale-105"
-      >
-        Add
-      </button> */}
+      {isAuthenticated && (
+        <button
+          type="button"
+          onClick={goToForm}
+          className="gradient-accent rounded-full px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-pink-500/20 transition-transform hover:scale-105"
+        >
+          Add
+        </button>
+      )}
     </header>
   );
 };
