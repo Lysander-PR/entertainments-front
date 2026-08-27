@@ -1,6 +1,5 @@
 import { isAxiosError } from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { ValidationError } from "yup";
 
 import { Alert } from "@/shared/components/Alert";
@@ -8,10 +7,11 @@ import { FormField } from "@/shared/components/FormField";
 import { formatYupErrors } from "@/shared/utils/format-yup-errors.util";
 
 import { loginAction } from "../actions/login.action";
+import { useAuthRedirect } from "../hooks/useAuthRedirect";
 import { loginSchema } from "../schemas/login.schema";
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
+  const redirectAfterAuth = useAuthRedirect();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -38,7 +38,7 @@ export const LoginForm = () => {
 
     try {
       await loginAction(email, password);
-      navigate("/");
+      redirectAfterAuth();
     } catch (submitError) {
       const message = isAxiosError(submitError)
         ? submitError.response?.data?.message
