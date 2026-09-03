@@ -1,10 +1,11 @@
 import { Dropdown } from "@/shared/components/Dropdown";
 
 interface CardActionsMenuProps {
+  onEdit: () => void;
   onDelete: () => void;
 }
 
-export const CardActionsMenu = ({ onDelete }: CardActionsMenuProps) => {
+export const CardActionsMenu = ({ onEdit, onDelete }: CardActionsMenuProps) => {
   return (
     <Dropdown
       panelClassName="absolute right-0 top-full z-20 mt-2 w-36 overflow-hidden rounded-lg border border-white/10 bg-surface-elevated shadow-xl"
@@ -23,17 +24,30 @@ export const CardActionsMenu = ({ onDelete }: CardActionsMenuProps) => {
       )}
     >
       {({ close }) => (
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            close();
-            onDelete();
-          }}
-          className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/10"
-        >
-          🗑️ Delete
-        </button>
+        <>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              close();
+              onEdit();
+            }}
+            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            ✏️ Edit
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              close();
+              onDelete();
+            }}
+            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/10"
+          >
+            🗑️ Delete
+          </button>
+        </>
       )}
     </Dropdown>
   );

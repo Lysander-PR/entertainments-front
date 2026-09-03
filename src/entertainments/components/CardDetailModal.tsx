@@ -8,6 +8,7 @@ import { CATEGORY_LABELS } from "../types/consts/category-label.const";
 interface CardDetailModalProps {
   item: EntertainmentCardItem;
   onClose: () => void;
+  onEdit?: () => void;
   onDelete?: () => void;
 }
 
@@ -30,6 +31,7 @@ const DetailRow = ({ label, children }: DetailRowProps) => {
 export const CardDetailModal = ({
   item,
   onClose,
+  onEdit,
   onDelete,
 }: CardDetailModalProps) => {
   return (
@@ -73,14 +75,28 @@ export const CardDetailModal = ({
             ))}
         </div>
 
-        {onDelete && (
-          <button
-            type="button"
-            onClick={onDelete}
-            className="mt-6 w-full rounded-full border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/20"
-          >
-            🗑️ Delete
-          </button>
+        {(onEdit || onDelete) && (
+          <div className="mt-6 flex gap-3">
+            {onEdit && (
+              <button
+                type="button"
+                onClick={onEdit}
+                className="w-full rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                ✏️ Edit
+              </button>
+            )}
+
+            {onDelete && (
+              <button
+                type="button"
+                onClick={onDelete}
+                className="w-full rounded-full border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/20"
+              >
+                🗑️ Delete
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>
