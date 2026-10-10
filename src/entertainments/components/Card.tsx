@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuthStore } from "@/auth/store/auth.store";
 import { ConfirmDialog } from "@/shared/components/ConfirmDialog";
 import { Modal } from "@/shared/components/Modal";
+import { buildFormUrl } from "@/shared/utils/form-handoff.util";
 import type { EntertainmentCardItem } from "@/entertainments/types/interfaces/entertainment-card-item.interface";
 import { EntertainmentImage } from "@/entertainments/images/components/EntertainmentImage";
 
@@ -40,6 +41,12 @@ export const Card = ({ item }: CardProps) => {
     );
   };
 
+  const handleEdit = () => {
+    const formUrl = buildFormUrl({ entertainment: item.category, id: item.id });
+
+    if (formUrl) window.location.assign(formUrl);
+  };
+
   return (
     <>
       <div
@@ -63,7 +70,9 @@ export const Card = ({ item }: CardProps) => {
               {item.releaseDate}
             </span>
 
-            {isAuthenticated && <CardActionsMenu onDelete={openConfirm} />}
+            {isAuthenticated && (
+              <CardActionsMenu onEdit={handleEdit} onDelete={openConfirm} />
+            )}
           </div>
         </div>
 
@@ -79,6 +88,7 @@ export const Card = ({ item }: CardProps) => {
         <CardDetailModal
           item={item}
           onClose={() => setIsModalOpen(false)}
+          onEdit={isAuthenticated ? handleEdit : undefined}
           onDelete={isAuthenticated ? openConfirm : undefined}
         />
       </Modal>
